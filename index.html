@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestro Universo Infinito 💫</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:'Poppins', sans-serif;
+    background:black;
+    color:white;
+    text-align:center;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-2;
+}
+
+/* Nebulosa */
+.nebula{
+    position:fixed;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle at 30% 30%, #ff1493, transparent 40%),
+               radial-gradient(circle at 70% 60%, #6a5acd, transparent 40%),
+               radial-gradient(circle at 50% 80%, #00bfff, transparent 40%);
+    animation:moveNebula 30s linear infinite alternate;
+    z-index:-1;
+    opacity:0.4;
+}
+
+@keyframes moveNebula{
+    from{transform:translate(-10%,-10%) rotate(0deg);}
+    to{transform:translate(-20%,-20%) rotate(10deg);}
+}
+
+h1{
+    font-family:'Great Vibes', cursive;
+    font-size:4rem;
+    margin-top:40px;
+    animation:fadeIn 3s ease-in-out;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(-40px);}
+    to{opacity:1;}
+}
+
+.photo{
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #ff66cc;
+    box-shadow:0 0 40px #ff1493;
+    margin-top:20px;
+    animation:pulse 3s infinite alternate;
+}
+
+@keyframes pulse{
+    from{box-shadow:0 0 20px #ff66cc;}
+    to{box-shadow:0 0 70px #ff1493;}
+}
+
+.counter{
+    margin-top:15px;
+    font-size:1.2rem;
+}
+
+button{
+    margin:15px;
+    padding:10px 25px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(45deg,#ff1493,#ff66cc);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+/* Carta */
+#letter{
+    width:80%;
+    max-width:500px;
+    margin:20px auto;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:15px;
+    transform:scaleY(0);
+    transform-origin:top;
+    transition:0.8s;
+}
+
+/* Anillo */
+#ring{
+    font-size:60px;
+    margin-top:10px;
+    opacity:0;
+    animation:floatRing 3s infinite ease-in-out;
+}
+
+@keyframes floatRing{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+    100%{transform:translateY(0);}
+}
+
+/* Fuegos artificiales */
+.firework{
+    position:absolute;
+    font-size:20px;
+    animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+    from{transform:scale(0);}
+    to{transform:scale(2); opacity:0;}
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div class="nebula"></div>
+
+<!-- AQUÍ PONES TU MP3 DE DISFRUTO -->
+<audio autoplay loop>
+    <source src="disfruto.mp3" type="audio/mp3">
+</audio>
+
+<h1>Nuestro Universo 💫</h1>
+
+<p>Desde el 16 de Enero de 2024 comenzó nuestra historia infinita ❤️</p>
+
+<img src="tu_foto.jpg" class="photo">
+
+<div class="counter" id="counter"></div>
+
+<button onclick="openLetter()">💌 Abrir Carta</button>
+<button onclick="proposal()">💍 Propuesta</button>
+
+<div id="letter">
+Disfruto cada segundo contigo, cada mirada, cada abrazo.
+Eres mi canción favorita, mi calma y mi locura.
+Quiero caminar contigo no solo en esta vida,
+sino en todos los universos posibles. 💖
+</div>
+
+<div id="ring">💍</div>
+
+<script>
+
+/* ESTRELLAS */
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let stars=[];
+for(let i=0;i<300;i++){
+    stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2});
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="white";
+    stars.forEach(s=>{
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fill();
+        s.y+=0.2;
+        if(s.y>canvas.height)s.y=0;
+    });
+    requestAnimationFrame(draw);
+}
+draw();
+
+/* CONTADOR */
+const startDate=new Date("2026-01-16");
+function updateCounter(){
+    const now=new Date();
+    const diff=now-startDate;
+    const days=Math.floor(diff/(1000*60*60*24));
+    const hours=Math.floor(diff/(1000*60*60))%24;
+    document.getElementById("counter").innerHTML=
+    days+" días y "+hours+" horas juntos 💞";
+}
+updateCounter();
+setInterval(updateCounter,1000);
+
+/* CARTA */
+function openLetter(){
+    document.getElementById("letter").style.transform="scaleY(1)";
+}
+
+/* PROPUESTA */
+function proposal(){
+    document.getElementById("ring").style.opacity=1;
+    for(let i=0;i<20;i++){
+        let fire=document.createElement("div");
+        fire.classList.add("firework");
+        fire.innerHTML="✨";
+        fire.style.left=Math.random()*window.innerWidth+"px";
+        fire.style.top=Math.random()*window.innerHeight+"px";
+        document.body.appendChild(fire);
+        setTimeout(()=>fire.remove(),1000);
+    }
+}
+
+</script>
+
+</body>
+</html>
